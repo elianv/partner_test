@@ -41,7 +41,7 @@ pygame===1.9.1release
 pygobject==3.20.0
 pygpgme==0.3
 pyodbc==3.0.7
-pyOpenSSL==0.15.1
+pyOpenSSL==17.5.0
 PyPDF2==1.26.0
 pyserial==3.0.1
 pysqlite==2.7.0
