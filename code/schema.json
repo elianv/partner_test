@@ -1,0 +1,62 @@
+{
+					"type":"object",
+					"required": ["pdvs"],
+					"properties" : { 
+						"pdvs" : {
+							"type": "array" ,
+							"items" : { "$ref": "#definitions/def_pdvs" }
+							
+						}
+					},
+					"definitions" : {
+						"def_pdvs": {
+							"type": "object",
+							"required": ["tradingName", "ownerName", "document", "coverageArea", "address"],
+							"properties": {
+								"tradingName": { "type": "string"},
+								"ownerName": { "type": "string"},
+								"document": { "type": "string"},
+								"coverageArea": {
+									  "type": "object",
+									  "required": [
+									    "type",
+									    "coordinates"
+									  ],
+									  "properties": {
+									    "type": {
+									      "type": "string",
+									      "enum": [
+									        "MultiPolygon"
+									      ]
+									    },
+									    "coordinates": {
+									      "type": "array",
+									      "items": {
+									        "type": "array",
+									        "items": {
+									          "type": "array",
+									          "minItems": 4,
+									          "items": {
+									            "type": "array",
+									            "minItems": 2,
+									            "items": {
+									              "type": "number"
+									            }
+									          }
+									        }
+									      }
+									    },
+									    "bbox": {
+									      "type": "array",
+									      "minItems": 4,
+									      "items": {
+									        "type": "number"
+									      }
+									    }
+									  }
+									}
+		
+							}
+						}
+					}
+				}

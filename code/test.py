@@ -4,7 +4,7 @@ from flask import Flask, request
 from flask_restful import Api
 from flask.views import MethodView
 from shapely.geometry import shape, Point
-from jsonschema import validate
+import jsonschema
 
 app = Flask(__name__)
 api = Api(app)
@@ -23,12 +23,21 @@ class Partners(MethodView):
 		file.write(json.dumps(data))
 		file.close
 
-	def JsonSchema(self):
-		schema = [
-			"type":"object",
-			"pdvs": {"type": "array", "items": { "type": "object" } }
+	def JsonSchema(self, data):
+		file = open("schema.json", "r")
+		schema_data = json.loads(file.read())
+		file.close()
 
-		]
+
+		validationErrors = []
+		v = jsonschema.Draft4Validator(schema_data)
+		for error in v.iter_errors(data):
+		    validationErrors.append(error)
+
+		if len(validationErrors):
+			return False, 'Error problemas con el JSON'
+
+		return True, 'Validacion OK'
 
 	def get(self, param1, param2=None):
 		
@@ -64,8 +73,13 @@ class Partners(MethodView):
 
 	def post(self):
 		data = self.getJson()
-		json_data = json.loads(request.data)
-		# aqui deberia validar la data con el standar del json 
+		request_json = json.loads(request.data)
+
+		varOut, mensaje = self.JsonSchema(request_json)
+
+		if not varOut:
+			return {'Error' : mensaje}
+		
 		# agrego al final del json el elemento que me dan
 		key = 0
 		for i in data['pdvs']:
@@ -73,7 +87,7 @@ class Partners(MethodView):
 				last_key =  i['id']
 				key = int(i['id']) + 1
 
-		data['pdvs'].append(json_data)
+		data['pdvs'].append(request_json)
 		data['pdvs'][len(data['pdvs'])-1]['id'] = str(key)
 		self.wJson(data)
 		return {'code':'Insersion exitosa', 'id': str(key)}			
