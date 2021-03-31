@@ -22,7 +22,7 @@ ipaddress==1.0.16
 itsdangerous==1.1.0
 Jinja2==2.10
 lockfile==0.12.2
-lxml==3.5.0
+lxml==4.6.3
 MarkupSafe==1.1.0
 mysql-connector-python==2.0.4
 mysql-utilities==1.6.1
