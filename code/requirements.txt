@@ -29,7 +29,7 @@ mysql-utilities==1.6.1
 ndg-httpsclient==0.4.0
 numpy==1.11.0
 PAM==0.4.2
-paramiko==1.16.0
+paramiko==2.10.1
 pdf2image==1.5.1
 pexpect==4.0.1
 Pillow==6.0.0
